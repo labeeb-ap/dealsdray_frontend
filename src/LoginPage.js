@@ -7,7 +7,7 @@ const LoginPage = () => {
    const [username, setusername] = useState('');
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
-   const navigate = useNavigate(); // Define navigate here using useNavigate
+   const navigate = useNavigate(); 
 
    const handleusernameChange = (e) => {
       setusername(e.target.value);
@@ -17,7 +17,7 @@ const LoginPage = () => {
       setPassword(e.target.value);
    };
 
-   // Make handleSubmit an async function
+   
    const handleSubmit = async (e) => {
       e.preventDefault();
 
@@ -27,7 +27,7 @@ const LoginPage = () => {
       }
       
       try {
-         const response = await fetch('http://localhost:4000/login/userlogin', {
+         const response = await fetch('http://localhost:3000/login/userlogin', {
            method: 'POST',
            headers: {
              'Content-Type': 'application/json'
@@ -40,7 +40,8 @@ const LoginPage = () => {
            console.log(data);
 
            if (data.success) {
-              navigate('/ResidentHome');
+            localStorage.setItem('username', JSON.stringify(data.data.username));
+              navigate('/Home');
            } else {
               setError('Invalid username or password.');
            }
@@ -58,7 +59,7 @@ const LoginPage = () => {
 
    return (
       <div className="login-container">
-         <img src={logo} alt="Logo" className="login-logo" /> {/* Logo at the top */}
+         <img src={logo} alt="Logo" className="login-logo" /> 
          <h2>Login</h2>
          {error && <p className="error-message">{error}</p>}
          <form onSubmit={handleSubmit}>
